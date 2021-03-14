@@ -15,6 +15,7 @@
     <script src="Stroop_Setup_EN.js"></script>
     <link href="jspsych-6.2.0/css/jspsych.css" rel="stylesheet" type="text/css">
     <link href="Stroop.css" rel="stylesheet">
+    <script src="/assets/javascripts/jatos.js"></script>
     <style>
       .stimulus { font-size: StimulusFontSize; }
     </style>
@@ -191,19 +192,21 @@
     timeline.push(thank_you);
 
     /* start the experiment */
-    //jatos.onLoad(function() {  
-    jsPsych.init({
-    // This sets the width of the experiment to 600 pixels. This will wrap all text to that amount.
-      experiment_width: 600,
-    	timeline: timeline,
-      on_interaction_data_update: function(data) {
-        console.log(JSON.stringify(data))
-      },
-      on_finish: function() {
-        jsPsych.data.get().localSave('csv','StroopColorMydata.csv');
-      }
-      //on_finish: saveData
+    jatos.onLoad(function() {  
+      jsPsych.init({
+      // This sets the width of the experiment to 600 pixels. This will wrap all text to that amount.
+        experiment_width: 600,
+      	timeline: timeline,
+        on_interaction_data_update: function(data) {
+          console.log(JSON.stringify(data))
+        },
+        on_finish: function() {
+         // jsPsych.data.get().localSave('csv','StroopColorMydata.csv');
+          var resultJson = jsPsych.data.get().json();
+          jatos.submitResultData(resultJson, jatos.startNextComponent);
+        }
+        //on_finish: saveData
+      });
     });
-    //});
   </script>
 </html>
