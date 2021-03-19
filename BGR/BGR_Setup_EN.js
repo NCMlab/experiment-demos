@@ -2,13 +2,16 @@
 var FullScreenMode = false;
 var TextFontSize = "30px";
 var StimulusFontSize = "30px";
-var ResponseChoices = [37, 39, 27]
+
+var ResponseChoiceTrue = 37 // Left arrow
+var ResponseChoiceFalse = 39 // right arrow
+var ResponseChoices = [ResponseChoiceTrue, ResponseChoiceFalse, 27]
 var FeedbackLength = 400; // This is in milliseconds
 var PracticeRepeats = 1
 var TestRepeats = 1
 
 function PutIntoTable(top='top', middle='mid', width=600, height=300) {
-      return '<table border="0" width="'+width+'"><tr height="'+height+'"><td>'+top+'</td></tr><tr height="'+height+'"><td><div style="font-size:60px;">'+middle+'</div></td></tr><tr height="'+height+'"><td valign="bottom"><img src="assets/TrueFalseArrows.png"></td></tr></table>';
+      return '<table border="0" width="'+width+'"><tr height="'+height+'"><td>'+top+'</td></tr><tr height="'+height+'"><td><div style="font-size:'+StimulusFontSize+';">'+middle+'</div></td></tr><tr height="'+height+'"><td valign="bottom"><img src="assets/TrueFalseArrows.png"></td></tr></table>';
     }
 
 var InstrText = ['<p style="font-size:'+TextFontSize+'">Welcome to the Grammatical Reasoning Test.</p>',
@@ -28,7 +31,7 @@ var BaddGramReasonPracticeList = [
     "item": 1,
     "Sentence": "A is followed by B",
     "Response": "AB",
-    "correct:": "true"
+    "correct": "true"
   },
   {
     "item": 2,
@@ -46,7 +49,7 @@ var BaddGramReasonPracticeList = [
     "item": 4,
     "Sentence": "A does not precede B",
     "Response": "BA",
-    "correct:": "true"
+    "correct": "true"
   }
 ]
 
@@ -56,19 +59,19 @@ var BaddGramReasonList = [
     "item": 1,
     "Sentence": "A is preceded by B",
     "Response": "BA",
-    "correct:": "true"
+    "correct": "true"
   },
   {
     "item": 2,
     "Sentence": "B does not precede A",
     "Response": "AB",
-    "correct:": "true"
+    "correct": "true"
   },
   {
     "item": 3,
     "Sentence": "A is not followed by B",
     "Response": "BA",
-    "correct:": "true"
+    "correct": "true"
   },
   {
     "item": 4,
@@ -80,13 +83,13 @@ var BaddGramReasonList = [
     "item": 5,
     "Sentence": "A is followed by B",
     "Response": "AB",
-    "correct:": "true"
+    "correct": "true"
   },
   {
     "item": 6,
     "Sentence": "A does not follow B",
     "Response": "AB",
-    "correct:": "true"
+    "correct": "true"
   },
   {
     "item": 7,
@@ -98,7 +101,7 @@ var BaddGramReasonList = [
     "item": 8,
     "Sentence": "B follows A",
     "Response": "AB",
-    "correct:": "true"
+    "correct": "true"
   },
   {
     "item": 9,
@@ -110,7 +113,7 @@ var BaddGramReasonList = [
     "item": 10,
     "Sentence": "B does not follow A",
     "Response": "BA",
-    "correct:": "true"
+    "correct": "true"
   },
   {
     "item": 11,
@@ -134,19 +137,19 @@ var BaddGramReasonList = [
     "item": 14,
     "Sentence": "B is preceded by A",
     "Response": "AB",
-    "correct:": "true"
+    "correct": "true"
   },
   {
     "item": 15,
     "Sentence": "B is followed by A",
     "Response": "BA",
-    "correct:": "true"
+    "correct": "true"
   },
   {
     "item": 16,
     "Sentence": "B precedes A",
     "Response": "BA",
-    "correct:": "true"
+    "correct": "true"
   },
   {
     "item": 17,
@@ -164,7 +167,7 @@ var BaddGramReasonList = [
     "item": 19,
     "Sentence": "B is not preceded by A",
     "Response": "BA",
-    "correct:": "true"
+    "correct": "true"
   },
   {
     "item": 20,
@@ -200,13 +203,13 @@ var BaddGramReasonList = [
     "item": 25,
     "Sentence": "A follows B",
     "Response": "BA",
-    "correct:": "true"
+    "correct": "true"
   },
   {
     "item": 26,
     "Sentence": "A is not preceded by B",
     "Response": "AB",
-    "correct:": "true"
+    "correct": "true"
   },
   {
     "item": 27,
@@ -224,7 +227,7 @@ var BaddGramReasonList = [
     "item": 29,
     "Sentence": "A precedes B",
     "Response": "AB",
-    "correct:": "true"
+    "correct": "true"
   },
   {
     "item": 30,
@@ -242,55 +245,55 @@ var BaddGramReasonList = [
     "item": 32,
     "Sentence": "A does not precede B",
     "Response": "BA",
-    "correct:": "true"
+    "correct": "true"
   },
   {
     "item": 33,
     "Sentence": "A does not follow B",
     "Response": "AB",
-    "correct:": "true"
+    "correct": "true"
   },
   {
     "item": 34,
     "Sentence": "A is not followed by B",
     "Response": "BA",
-    "correct:": "true"
+    "correct": "true"
   },
   {
     "item": 35,
     "Sentence": "B is not preceded by A",
     "Response": "BA",
-    "correct:": "true"
+    "correct": "true"
   },
   {
     "item": 36,
     "Sentence": "B is preceded by A",
     "Response": "AB",
-    "correct:": "true"
+    "correct": "true"
   },
   {
     "item": 37,
     "Sentence": "A follows B",
     "Response": "BA",
-    "correct:": "true"
+    "correct": "true"
   },
   {
     "item": 38,
     "Sentence": "B precedes A",
     "Response": "BA",
-    "correct:": "true"
+    "correct": "true"
   },
   {
     "item": 39,
     "Sentence": "B is followed by A",
     "Response": "BA",
-    "correct:": "true"
+    "correct": "true"
   },
   {
     "item": 40,
     "Sentence": "A precedes B",
     "Response": "AB",
-    "correct:": "true"
+    "correct": "true"
   },
   {
     "item": 41,
@@ -308,37 +311,37 @@ var BaddGramReasonList = [
     "item": 43,
     "Sentence": "A does not precede B",
     "Response": "BA",
-    "correct:": "true"
+    "correct": "true"
   },
   {
     "item": 44,
     "Sentence": "A is preceded by B",
     "Response": "BA",
-    "correct:": "true"
+    "correct": "true"
   },
   {
     "item": 45,
     "Sentence": "B is not followed by A",
     "Response": "AB",
-    "correct:": "true"
+    "correct": "true"
   },
   {
     "item": 46,
     "Sentence": "B does not follow A",
     "Response": "BA",
-    "correct:": "true"
+    "correct": "true"
   },
   {
     "item": 47,
     "Sentence": "B does not precede A",
     "Response": "AB",
-    "correct:": "true"
+    "correct": "true"
   },
   {
     "item": 48,
     "Sentence": "A is followed by B",
     "Response": "AB",
-    "correct:": "true"
+    "correct": "true"
   },
   {
     "item": 49,
@@ -374,7 +377,7 @@ var BaddGramReasonList = [
     "item": 54,
     "Sentence": "A is not preceded by B",
     "Response": "AB",
-    "correct:": "true"
+    "correct": "true"
   },
   {
     "item": 55,
@@ -434,6 +437,6 @@ var BaddGramReasonList = [
     "item": 64,
     "Sentence": "B follows A",
     "Response": "AB",
-    "correct:": "true"
+    "correct": "true"
   }
 ]

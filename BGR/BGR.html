@@ -14,7 +14,7 @@
      <script src="jspsych-6.2.0/plugins/jspsych-instructions.js"></script>
     <script src="BGR_Setup_EN.js"></script>
     <link href="jspsych-6.2.0/css/jspsych.css" rel="stylesheet" type="text/css">
-    
+    <link href="BGR.css" rel="stylesheet">
     <style>
       .stimulus { font-size: StimulusFontSize; }
     </style>
@@ -62,28 +62,46 @@
       type: 'html-keyboard-response',
       stimulus: function()
       { 
-        var Stim = jsPsych.timelineVariable('Sentence', true)
+        var Stim = "<p>"+jsPsych.timelineVariable('Sentence', true)+"</p><p>"+jsPsych.timelineVariable('Response', true)+'</p>'
         var temp = PutIntoTable('',Stim)
         return temp;
       },
       choices: ResponseChoices,
       post_trial_gap: 0,
-      /* on_finish: function(data){
-        data.correct = data.key_press == jsPsych.pluginAPI.convertKeyCharacterToKeyCode(data.letter);
-        // This used later on to filter trials
+      on_finish: function(data){
+        
+        //console.log(data.key_press)
+        //console.log(data.correct)
+        if (data.key_press == ResponseChoiceTrue) {
+         // True was selected
+         // Is this what is expected?
+          if (data.correct == 'true') {
+            data.correct = true
+          } else {
+            data.correct = false
+          }
+        } else if (data.key_press == ResponseChoiceFalse) {
+         // False was selected
+         // Is this what is expected?
+          if (data.correct == 'false') {
+            data.correct = true
+          } else {
+            data.correct = false
+          }
+        }
         // If the ESCAPE key is pressed the current timeline is ended and the thank you screen is shown 
         if (data.key_press == 27) {
           //jsPsych.endCurrentTimeline();
           jsPsych.end();
         }
       }, 
-      */
+      
     }
 
     var prac_stimulus = Object.assign({}, Stimulus)
     prac_stimulus = Object.assign(prac_stimulus, {    
       data: {
-        letter: jsPsych.timelineVariable('letter'),
+        correct: jsPsych.timelineVariable('correct'),
         type: 'practice trial'
       }
     })
@@ -91,7 +109,7 @@
     var test_stimulus = Object.assign({}, Stimulus)
     test_stimulus = Object.assign(test_stimulus, {    
       data: {
-        letter: jsPsych.timelineVariable('letter'),
+        correct: jsPsych.timelineVariable('correct'),
         type: 'test trial'
       }
     })
@@ -104,7 +122,8 @@
       },
   	  choices: jsPsych.NO_KEYS,
   	  trial_duration: function(){
-          return jsPsych.randomization.sampleWithoutReplacement([250, 500, 750, 1000, 1250, 1500, 1750, 2000], 1)[0];
+          //return jsPsych.randomization.sampleWithoutReplacement([250, 500, 750, 1000, 1250, 1500, 1750, 2000], 1)[0];
+          return 100;
         },
       data: {type: 'fixation'}
   	}
@@ -176,7 +195,7 @@
       }
     }
 
-    timeline.push(Instr);
+    //timeline.push(Instr);
     // run the practice trials
     timeline.push(practice_procedure);
     // provide feedback as to their performance
@@ -200,9 +219,9 @@
       on_interaction_data_update: function(data) {
         console.log(JSON.stringify(data))
       },
-      /*on_finish: function() {
-        jsPsych.data.get().localSave('csv','StroopColorMydata.csv');
-      }*/
+      on_finish: function() {
+        jsPsych.data.get().localSave('csv','BGR_Mydata.csv');
+      }
       //on_finish: saveData
     });
     //});
