@@ -72,6 +72,8 @@
         
         //console.log(data.key_press)
         //console.log(data.correct)
+        data.Sentence = jsPsych.timelineVariable('Sentence', true)
+        data.Response = jsPsych.timelineVariable('Response', true)
         if (data.key_press == ResponseChoiceTrue) {
          // True was selected
          // Is this what is expected?

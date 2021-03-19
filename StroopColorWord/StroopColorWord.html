@@ -70,7 +70,7 @@
       type: 'html-keyboard-response',
       stimulus: function()
       { 
-        var Stim = '<p class="stimulus" style="color:rgb'+jsPsych.timelineVariable('Color', true)+';">' +jsPsych.timelineVariable('Word', true)+'</p>'
+        var Stim = '<p class="stimulus" style="color:rgb'+jsPsych.timelineVariable('Color', true)+';">'+jsPsych.timelineVariable('Word', true)+'</p>'
         var temp = PutIntoTable('',Stim)
         return temp;
         //return '<p class="stimulus" style="color:rgb'+jsPsych.timelineVariable('Color', true)+';">' +jsPsych.timelineVariable('Word', true)+'</p>'; 
