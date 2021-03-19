@@ -1,1 +1,1 @@
-This script is based off of teh Stroop Color script. I am working towards making the script as task independent as possible. Since many tasks will be very similar, it is possible to only need to change the setup file and the stimulus variable for any new task. 
+This script is based off of the Stroop Color script. I am working towards making the script as task independent as possible. Since many tasks will be very similar, it is possible to only need to change the setup file and the stimulus variable for any new task. 
