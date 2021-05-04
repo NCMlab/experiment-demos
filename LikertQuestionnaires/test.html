@@ -18,12 +18,8 @@
     <script src="jspsych-6.2.0/plugins/jspsych-survey-likert.js"></script>
     <script src="panas.js"></script>
     <script src="stai.js"></script>
-    <link href="jspsych-6.2.0/css/jspsych.css" rel="stylesheet" type="text/css">
+    <script src="aes.js"></script>
     <style>
-      .stimulus { font-size: StimulusFontSize; }
-    .jspsych-display-element {
-      font-size: 5px;
-
     </style>
   </head>
   <script>
@@ -38,14 +34,18 @@ var TestDemo2 = {
   var TestDemo3 = {
     type: 'survey-likert',
     questions: staiItems,
-    preamble: staiInstructions
-  
+    preamble: staiInstructions,
+  };
+
+  var TestDemo4 = {
+    type: 'survey-likert',
+    questions: aesItems,
+    preamble: aesInstructions,
   };
 
 
-
     var timeline = [];
-    timeline.push(TestDemo2)
+    timeline.push(TestDemo4)
 
     jsPsych.init({
         experiment_width: 600,

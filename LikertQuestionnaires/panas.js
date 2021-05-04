@@ -32,10 +32,7 @@ var panasItems = [
     {prompt: "Afraid", labels: panasScaleForward},
   ]
 
-
 var panasInstructions = 'This scale consists of a number of words that describe different feelings and emotions. Indicate to what extent you feel this way right now, that is, at the present moment.'
-
-
 
 var References = "Watson, D., Clark, L. A., & Tellegan, A. (1988). Development and validation of brief measures of positive and negative affect: The PANAS scales. *Journal of Personality and Social Psychology, 54*(6), 1063–1070."
 

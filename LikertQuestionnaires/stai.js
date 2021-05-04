@@ -1,11 +1,11 @@
-var staiScaleForward = [
+var staiScaleReverse = [
     "Almost never",
     "Sometimes",
     "Often",
     "Almost always"
   ]
 
-var staiScaleReverse = [
+var staiScaleForward = [
     "Almost always",
     "Often",
     "Sometimes",
