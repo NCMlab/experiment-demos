@@ -24,20 +24,20 @@
   </head>
   <script>
 
-var TestDemo2 = {
+var TestPANAS = {
     type: 'survey-likert',
     questions: panasItems,
     preamble: panasInstructions
   
   };
 
-  var TestDemo3 = {
+  var TestSTAI = {
     type: 'survey-likert',
     questions: staiItems,
     preamble: staiInstructions,
   };
 
-  var TestDemo4 = {
+  var TestAES = {
     type: 'survey-likert',
     questions: aesItems,
     preamble: aesInstructions,
@@ -45,7 +45,7 @@ var TestDemo2 = {
 
 
     var timeline = [];
-    timeline.push(TestDemo4)
+    timeline.push(TestPANAS)
 
     jsPsych.init({
         experiment_width: 600,
