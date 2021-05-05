@@ -1,5 +1,102 @@
-/* This is a test of the staircase procedure
-To test I will use the RT with circles demo from jsPsych and will use the staircase to change a count on the screen.
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="description" content="jsPsych: Letter Delayed Match to Sample">
+    <meta name="keywords" content="HTML, CSS, JavaScript">
+    <meta name="author" content="Jason Steffener, NCMLab">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Letter Delayed Match to Sample</title>
+    <script src="jspsych-6.2.0/jspsych.js"></script>
+    <script src="jspsych-6.2.0/plugins/jspsych-html-keyboard-response.js"></script>
+    <script src="jspsych-6.2.0/plugins/jspsych-image-keyboard-response.js"></script>
+    <script src="jspsych-6.2.0/plugins/jspsych-fullscreen.js"></script>
+    <script src="jspsych-6.2.0/plugins/jspsych-instructions.js"></script>
+    <link href="jspsych-6.2.0/css/jspsych.css" rel="stylesheet" type="text/css">
+    <link href="StyleSheet.css" rel="stylesheet">
+    <style>
+      .stimulus { font-size: StimulusFontSize; }
+    </style>
 
+  </head>
+  <script>
+  	// Create a staircase object << CHANGE THIS TO A CLASS 
+  	function stair() = {
+  		ResponseCorrect:1, // is the current trial correct=1, or incorrect=0
+  		Current:1, // what is the current value
+  		TrialCount:0, // How many trials have been completed
+  		MinValue:1, // what is the minimum value this staircase can reach
+  		MaxValue:10, // what is the maximum value this staircase can reach
+  		MaxReversals:5, // What is the maximum number of reversal. This is a break condition
+  		MaxTrials:40, // What is the maximum number of trials. This is a break condition
+  		StepSize:1,  // What is the step size
+  		NUp:3, // How many correct responses in a row are required before the current value is INcreased
+  		NDown:1, // How many INcorrect responses in a rwo are required before the current value is DEcreased
+  		FastStart:true, // AT the beginning should sequential correct responses result in increasing current?
+  		CurrentRun:0, // How many correct in a row 
+  		ReversalList:[], // List of values where a reversal took place
+  		// increase difficulty
+  		stepUp:function(amount){
+  			this.Current += amount
+  		},
+  		// decrease difficulty
+  		stepDown:function(amount){
+  			this.Current -+ amount
+  		},
+  		// keep track of reversal count
+  		ReversalCount:function(){
+  			this.ReversalCount += 1
+  		},
+  		// keep track of the list of reversals
+  		ReversalList:function(){
+  			this.ReversalList
+  		},
+  		// stop the fast start
+  		StopFastStart:function(){
+  			this.FastStart = false
+  		}
+  	};
 
-*/
+  	function Staircase(stairObject){
+		var feedback = ""
+		// decisions needed
+
+		if (stairObject.FastStart == true & stairObject.ResponseCorrect == 1)
+		{
+			
+		}
+		if (stairObject.FastStart == false & stairObject.ResponseCorrect == 1)
+		{
+			stairObject.Current = stairObject.Current + stairObject.StepSize
+			stairObject 
+		}
+
+		if (stairObject.ResponseCorrect == 1)
+		{
+			feedback = "CORRECT"
+		} else {
+			feedback =  "Incorrect"
+		}
+		return feedback
+	}
+
+  	function test(){
+  		return "Hello World"
+  	}
+
+  	 var test = {
+      	type: "html-keyboard-response",
+      	stimulus: Staircase(stair)
+    };
+    var timeline = [];
+    // Make experiment run in full screen mode
+    // Note, that the fullscreen plugin needs to imported above
+    timeline.push(test)
+
+    jsPsych.init({
+      	experiment_width: 750,
+    	timeline: timeline,
+    });
+  </script>
+
+</html>
