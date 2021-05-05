@@ -21,41 +21,85 @@
   </head>
   <script>
   	// Create a staircase object << CHANGE THIS TO A CLASS 
-  	function stair() = {
-  		ResponseCorrect:1, // is the current trial correct=1, or incorrect=0
-  		Current:1, // what is the current value
-  		TrialCount:0, // How many trials have been completed
-  		MinValue:1, // what is the minimum value this staircase can reach
-  		MaxValue:10, // what is the maximum value this staircase can reach
-  		MaxReversals:5, // What is the maximum number of reversal. This is a break condition
-  		MaxTrials:40, // What is the maximum number of trials. This is a break condition
-  		StepSize:1,  // What is the step size
-  		NUp:3, // How many correct responses in a row are required before the current value is INcreased
-  		NDown:1, // How many INcorrect responses in a rwo are required before the current value is DEcreased
-  		FastStart:true, // AT the beginning should sequential correct responses result in increasing current?
-  		CurrentRun:0, // How many correct in a row 
-  		ReversalList:[], // List of values where a reversal took place
+  	
+  	class stair {
+  		constructor(ResponseCorrect=1, Current=1, MinValue=1, MaxValue=10, MaxReversals=5,
+  			MaxTrials=40, StepSize=1, NUp=3, NDown=1, FastStart=true) 
+  		{
+  			this.ResponseCorrect = ResponseCorrect; // is the current trial correct=1, or incorrect=0
+  			this.Current = Current; // what is the current value
+  			this.TrialCount = 0; // How many trials have been completed
+  			this.MinValue = MinValue; // what is the minimum value this staircase can reach
+  			this.MaxValue = MaxValue; // what is the maximum value this staircase can reach
+  			this.MaxReversals = MaxReversals; // What is the maximum number of reversal. This is a break condition
+  			this.MaxTrials = MaxTrials; // What is the maximum number of trials. This is a break condition
+  			this.StepSize = StepSize; // What is the step size
+  			this.NUp = NUp;// How many correct responses in a row are required before the current value is INcreased
+  			this.NDown = NDown;// How many INcorrect responses in a two are required before the current value is DEcreased
+  			this.FastStart = FastStart; // At the beginning should sequential correct responses result in increasing current?
+  			this.CurrentRun = 0; // How many correct in a row
+  			this.ReversalList = []; // List of values where a reversal took place
+  			this.CurrentDirection = 1; // What direction are we heading? 1 increasing, -1 decreasing
+  			this.Finished = false; // If any of the stopping conditions are met this is set to true
+  			this.ReversalCount = 0; // the number of reversals
+  		}
   		// increase difficulty
-  		stepUp:function(amount){
-  			this.Current += amount
-  		},
+  		stepUp() {
+  			// only increase current if the max value has NOT been reached
+  			if (this.Current < this.MaxValue) {
+  				this.Current += this.StepSize	
+  				// Is this a reversal?
+  				if (this.CurrentDirection == -1) {
+  					// if so add the current value to the list
+  					this.ReversalList.push(this.Current)
+  					// and update the reversal count list
+  					this.updateReversalCount()
+  				}
+  			}
+  		}
+  		// Check to see if any stopping conditions are met
+  		checkFinished() {
+  			if (this.ReversalCount == this.MaxReversals) {
+  				this.Finished = true
+  			}
+  			if (this.TrialCount == this.MaxTrials) {
+  				this.Finished = true
+  			}
+  		}
+
   		// decrease difficulty
-  		stepDown:function(amount){
-  			this.Current -+ amount
-  		},
+  		stepDown() {
+  			this.Current -= this.StepSize
+  		}
+  		
+
   		// keep track of reversal count
-  		ReversalCount:function(){
+  		updateReversalCount() {
   			this.ReversalCount += 1
-  		},
-  		// keep track of the list of reversals
-  		ReversalList:function(){
-  			this.ReversalList
-  		},
+  		}
+
   		// stop the fast start
-  		StopFastStart:function(){
+  		StopFastStart() {
   			this.FastStart = false
   		}
-  	};
+  		
+  		Decide() {
+  			if (this.FastStart) {
+  				this.BeginningDecision()
+  			}
+  			else {
+  				this.LaterDecision()
+  			}
+  		}
+  		BeginningDecision() {
+  			if (this.ResponseCorrect == 1) {
+  				this.stepUp()
+  			}
+  		}
+  		LaterDecision() {
+
+  		}
+  	}
 
   	function Staircase(stairObject){
 		var feedback = ""
