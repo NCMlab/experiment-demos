@@ -22,11 +22,10 @@
   <script>
   	// Create a staircase object << CHANGE THIS TO A CLASS 
   	
-  	class stair {
-  		constructor(ResponseCorrect=1, Current=1, MinValue=1, MaxValue=10, MaxReversals=5,
+  	class Stair {
+  		constructor(Current=1, MinValue=1, MaxValue=10, MaxReversals=5,
   			MaxTrials=40, StepSize=1, NUp=3, NDown=1, FastStart=true) 
   		{
-  			this.ResponseCorrect = ResponseCorrect; // is the current trial correct=1, or incorrect=0
   			this.Current = Current; // what is the current value
   			this.TrialCount = 0; // How many trials have been completed
   			this.MinValue = MinValue; // what is the minimum value this staircase can reach
@@ -54,6 +53,8 @@
   					this.ReversalList.push(this.Current)
   					// and update the reversal count list
   					this.updateReversalCount()
+  					// update the current run list
+  					this.CurrentRun = 0
   				}
   			}
   		}
@@ -69,9 +70,10 @@
 
   		// decrease difficulty
   		stepDown() {
-  			this.Current -= this.StepSize
+  			if (this.Current > this.MinValue) {
+  				this.Current -= this.StepSize
+  			}
   		}
-  		
 
   		// keep track of reversal count
   		updateReversalCount() {
@@ -82,47 +84,55 @@
   		StopFastStart() {
   			this.FastStart = false
   		}
-  		
-  		Decide() {
-  			if (this.FastStart) {
-  				this.BeginningDecision()
-  			}
-  			else {
-  				this.LaterDecision()
-  			}
-  		}
-  		BeginningDecision() {
-  			if (this.ResponseCorrect == 1) {
-  				this.stepUp()
-  			}
-  		}
-  		LaterDecision() {
 
+  		// Make a decision based on the current response
+  		Decide(ResponseCorrect) {
+  			// the response is correct
+  			if (ResponseCorrect) {
+  				// are we still at the rapid increase phase?
+	  			if (this.FastStart) {
+	  				this.BeginningDecision()
+	  			}
+	  			else {
+	  				this.LaterDecision()
+	  			}
+	  		}
+	  		else {
+	  			this.stepDown()
+	  			// reset the current run counter
+	  			this.CurrentRun = 0
+	  			// If we are still in the fast start increase phase, then end it
+	  			if (this.FastStart) {
+	  				this.FastStart = false
+	  			}
+	  		}
+	  		// At the end of every decision check the ending conditions
+	  		this.checkFinished()
+  		}
+
+  		// We are at the rapid increase phase at the beginning 
+  		BeginningDecision() {
+  			this.stepUp()
+  			// Note that the CurrentRun counter is not being used yet
+  		}
+
+  		// We are past the rapid increase phase at the beginning
+  		LaterDecision() {
+  			// if this is the completeion of a run of correct responses, then increase
+  			if (this.CurrentRun == this.NUp) {
+  				this.stepUp()
+  				// reset the current run counter since we made a change
+  				this.CurrentRun = 0
+  			} 
+  			else {
+  				this.CurrentRun += 1
+  			}
   		}
   	}
 
-  	function Staircase(stairObject){
-		var feedback = ""
-		// decisions needed
 
-		if (stairObject.FastStart == true & stairObject.ResponseCorrect == 1)
-		{
-			
-		}
-		if (stairObject.FastStart == false & stairObject.ResponseCorrect == 1)
-		{
-			stairObject.Current = stairObject.Current + stairObject.StepSize
-			stairObject 
-		}
-
-		if (stairObject.ResponseCorrect == 1)
-		{
-			feedback = "CORRECT"
-		} else {
-			feedback =  "Incorrect"
-		}
-		return feedback
-	}
+  	let stair1 = new Stair();
+  	stair1.stepUp()
 
   	function test(){
   		return "Hello World"
@@ -130,7 +140,7 @@
 
   	 var test = {
       	type: "html-keyboard-response",
-      	stimulus: Staircase(stair)
+      	stimulus: stair1.Current
     };
     var timeline = [];
     // Make experiment run in full screen mode
