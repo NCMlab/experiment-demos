@@ -22,117 +22,13 @@
   <script>
   	// Create a staircase object << CHANGE THIS TO A CLASS 
   	
-  	class Stair {
-  		constructor(Current=1, MinValue=1, MaxValue=10, MaxReversals=5,
-  			MaxTrials=40, StepSize=1, NUp=3, NDown=1, FastStart=true) 
-  		{
-  			this.Current = Current; // what is the current value
-  			this.TrialCount = 0; // How many trials have been completed
-  			this.MinValue = MinValue; // what is the minimum value this staircase can reach
-  			this.MaxValue = MaxValue; // what is the maximum value this staircase can reach
-  			this.MaxReversals = MaxReversals; // What is the maximum number of reversal. This is a break condition
-  			this.MaxTrials = MaxTrials; // What is the maximum number of trials. This is a break condition
-  			this.StepSize = StepSize; // What is the step size
-  			this.NUp = NUp;// How many correct responses in a row are required before the current value is INcreased
-  			this.NDown = NDown;// How many INcorrect responses in a two are required before the current value is DEcreased
-  			this.FastStart = FastStart; // At the beginning should sequential correct responses result in increasing current?
-  			this.CurrentRun = 0; // How many correct in a row
-  			this.ReversalList = []; // List of values where a reversal took place
-  			this.CurrentDirection = 1; // What direction are we heading? 1 increasing, -1 decreasing
-  			this.Finished = false; // If any of the stopping conditions are met this is set to true
-  			this.ReversalCount = 0; // the number of reversals
-  		}
-  		// increase difficulty
-  		stepUp() {
-  			// only increase current if the max value has NOT been reached
-  			if (this.Current < this.MaxValue) {
-  				this.Current += this.StepSize	
-  				// Is this a reversal?
-  				if (this.CurrentDirection == -1) {
-  					// if so add the current value to the list
-  					this.ReversalList.push(this.Current)
-  					// and update the reversal count list
-  					this.updateReversalCount()
-  					// update the current run list
-  					this.CurrentRun = 0
-  				}
-  			}
-  		}
-  		// Check to see if any stopping conditions are met
-  		checkFinished() {
-  			if (this.ReversalCount == this.MaxReversals) {
-  				this.Finished = true
-  			}
-  			if (this.TrialCount == this.MaxTrials) {
-  				this.Finished = true
-  			}
-  		}
-
-  		// decrease difficulty
-  		stepDown() {
-  			if (this.Current > this.MinValue) {
-  				this.Current -= this.StepSize
-  			}
-  		}
-
-  		// keep track of reversal count
-  		updateReversalCount() {
-  			this.ReversalCount += 1
-  		}
-
-  		// stop the fast start
-  		StopFastStart() {
-  			this.FastStart = false
-  		}
-
-  		// Make a decision based on the current response
-  		Decide(ResponseCorrect) {
-  			// the response is correct
-  			if (ResponseCorrect) {
-  				// are we still at the rapid increase phase?
-	  			if (this.FastStart) {
-	  				this.BeginningDecision()
-	  			}
-	  			else {
-	  				this.LaterDecision()
-	  			}
-	  		}
-	  		else {
-	  			this.stepDown()
-	  			// reset the current run counter
-	  			this.CurrentRun = 0
-	  			// If we are still in the fast start increase phase, then end it
-	  			if (this.FastStart) {
-	  				this.FastStart = false
-	  			}
-	  		}
-	  		// At the end of every decision check the ending conditions
-	  		this.checkFinished()
-  		}
-
-  		// We are at the rapid increase phase at the beginning 
-  		BeginningDecision() {
-  			this.stepUp()
-  			// Note that the CurrentRun counter is not being used yet
-  		}
-
-  		// We are past the rapid increase phase at the beginning
-  		LaterDecision() {
-  			// if this is the completeion of a run of correct responses, then increase
-  			if (this.CurrentRun == this.NUp) {
-  				this.stepUp()
-  				// reset the current run counter since we made a change
-  				this.CurrentRun = 0
-  			} 
-  			else {
-  				this.CurrentRun += 1
-  			}
-  		}
+  		//constructor(Current=1, MinValue=1, MaxValue=10, MaxReversals=5,
+  	//		MaxTrials=40, StepSize=1, NUp=3, NDown=1, FastStart=true) 
+  	
+  	let stair1 = new Stair(1,1,10,3,10,1,3,1,true);
+  	while (! stair1.Finished) {
+  		stair1.Decide(true)	
   	}
-
-
-  	let stair1 = new Stair();
-  	stair1.stepUp()
 
   	function test(){
   		return "Hello World"
@@ -140,7 +36,7 @@
 
   	 var test = {
       	type: "html-keyboard-response",
-      	stimulus: stair1.Current
+      	stimulus: stair1.ReversalList + "<++>" + stair1.ValueList
     };
     var timeline = [];
     // Make experiment run in full screen mode
