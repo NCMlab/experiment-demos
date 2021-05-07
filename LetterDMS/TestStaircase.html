@@ -14,38 +14,79 @@
     <script src="jspsych-6.2.0/plugins/jspsych-instructions.js"></script>
     <link href="jspsych-6.2.0/css/jspsych.css" rel="stylesheet" type="text/css">
     <link href="StyleSheet.css" rel="stylesheet">
+    <script src="StairClass.js"></script>
     <style>
       .stimulus { font-size: StimulusFontSize; }
     </style>
 
   </head>
   <script>
-  	// Create a staircase object << CHANGE THIS TO A CLASS 
-  	
+	var timeline = [];
   		//constructor(Current=1, MinValue=1, MaxValue=10, MaxReversals=5,
   	//		MaxTrials=40, StepSize=1, NUp=3, NDown=1, FastStart=true) 
   	
-  	let stair1 = new Stair(1,1,10,3,10,1,3,1,true);
-  	while (! stair1.Finished) {
-  		stair1.Decide(true)	
-  	}
+  	let stair1 = new Stair(4,1,10,3,10,1,3,1,true);
 
   	function test(){
   		return "Hello World"
   	}
 
-  	 var test = {
+  	var trial = {
       	type: "html-keyboard-response",
-      	stimulus: stair1.ReversalList + "<++>" + stair1.ValueList
-    };
-    var timeline = [];
+      	stimulus: "Current Value is: " + stair1.ValueList,
+      	choices: ['a','l'],
+      	// at the end of a trial the stair object is updated,
+      	// Then the conditional if checks to see if the staircase needs to end
+
+    }
+  	var if_trial = {
+      	type: "html-keyboard-response",
+      	stimulus: "This is the END",
+
+    }
+	var if_node = {
+    	timeline: [trial],
+    	conditional_function: function(){
+    		var key_response = jsPsych.data.get().last(1).values()[0];
+    		// if the stair case has NOT finished then continue in this loop
+    		if (jsPsych.pluginAPI.compareKeys(key_response,'a')){
+    			stair1.Decide(true)
+    		}
+    		else {
+    			stair1.Decide(false)
+    		}
+    		if (stair1.Finished) {
+    			return false;
+    		} 
+    		else {
+    			return false;
+    		}
+    	}
+  	}
+    var loop_node = {
+    timeline: [trial],
+    loop_function: function(data){
+      var key_response = data.values()[0].response;
+      if(jsPsych.pluginAPI.compareKeys(key_response,'a')){
+        return true;
+      } else {
+        return false;
+      }
+    }
+  }
+
+    
+    timeline.push(loop_node)
+    
     // Make experiment run in full screen mode
     // Note, that the fullscreen plugin needs to imported above
-    timeline.push(test)
+    //timeline.push(test)
 
     jsPsych.init({
+    	
       	experiment_width: 750,
     	timeline: timeline,
+    	default_iti: 200
     });
   </script>
 

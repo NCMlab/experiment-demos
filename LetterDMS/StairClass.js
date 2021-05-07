@@ -173,4 +173,15 @@
   				this.CurrentRun += 1
   			}
   		}
+
+      CalculateAverage() {
+        // calculate the average of the reversal values
+          var totalSum = 0;
+          for(var i in this.ReversalList) {
+            totalSum += this.ReversalList[i];
+          }
+          var numsCnt = this.ReversalList.length;
+          var average = totalSum / numsCnt;
+          return average
+      }
   	}
