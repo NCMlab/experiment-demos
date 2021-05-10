@@ -15,8 +15,8 @@
     <script src="jspsych/plugins/jspsych-survey-likert.js"></script>
     <link href="jspsych/css/jspsych.css" rel="stylesheet" type="text/css">
     <link href="LikertQuestionnaires.css" rel="stylesheet">
-    <script src="cfs.js"></script> """<< JUST CHANGE THIS AND THEN REMOVE THIS TEXT"""
-    <script src="/assets/javascripts/jatos.js"></script>
+    <script src="panas.js"></script>
+    <script src="jatos.js"></script>
 
   </head>
   <script>
@@ -39,9 +39,10 @@
             timeline: timeline,
             on_finish: function() {
                 var resultsJson = jsPsych.data.get().json();
-                jatos.submitResultsData(resultsJson, jatos.startNextComponent);
+                jatos.submitResultData(resultsJson, jatos.startNextComponent);
             }
-    })
+        });
+    });
 
     </script>
 </html>

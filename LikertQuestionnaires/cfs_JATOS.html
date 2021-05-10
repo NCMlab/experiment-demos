@@ -16,7 +16,7 @@
     <link href="jspsych/css/jspsych.css" rel="stylesheet" type="text/css">
     <link href="LikertQuestionnaires.css" rel="stylesheet">
     <script src="cfs.js"></script>
-    <script src="/assets/javascripts/jatos.js"></script>
+    <script src="jatos.js"></script>
 
   </head>
   <script>
@@ -39,9 +39,10 @@
             timeline: timeline,
             on_finish: function() {
                 var resultsJson = jsPsych.data.get().json();
-                jatos.submitResultsData(resultsJson, jatos.startNextComponent);
+                jatos.submitResultData(resultsJson, jatos.startNextComponent);
             }
-    })
+        });
+    });
 
     </script>
 </html>
