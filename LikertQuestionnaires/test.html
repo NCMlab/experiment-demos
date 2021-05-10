@@ -15,35 +15,22 @@
     <script src="jspsych-6.2.0/plugins/jspsych-survey-likert.js"></script>
     <link href="jspsych-6.2.0/css/jspsych.css" rel="stylesheet" type="text/css">
     <link href="LikertQuestionnaires.css" rel="stylesheet">
-    <script src="panas.js"></script>
-    <script src="stai.js"></script>
-    <script src="aes.js"></script>
+    <script src="cfi.js"></script>
 
   </head>
   <script>
 
-var TestPANAS = {
+
+
+  var Test = {
     type: 'survey-likert',
-    questions: panasItems,
-    preamble: panasInstructions
+    questions: items,
+    preamble: instructions,
+  };
+
   
-  };
-
-  var TestSTAI = {
-    type: 'survey-likert',
-    questions: staiItems,
-    preamble: staiInstructions,
-  };
-
-  var TestAES = {
-    type: 'survey-likert',
-    questions: aesItems,
-    preamble: aesInstructions,
-  };
-
-
     var timeline = [];
-    timeline.push(TestPANAS)
+    timeline.push(Test)
 
     jsPsych.init({
         experiment_width: 600,

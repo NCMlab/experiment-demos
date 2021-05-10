@@ -1,38 +1,40 @@
-var staiScaleReverse = [
+var title = "Stait Trait Anxiety Index"
+
+var scaleReverse = [
     "Almost never",
     "Sometimes",
     "Often",
     "Almost always"
   ]
 
-var staiScaleForward = [
+var scaleForward = [
     "Almost always",
     "Often",
     "Sometimes",
     "Almost never"
   ]
 
-var staiItems = [
-    {prompt: "I feel pleasant.", labels: staiScaleForward},
-    {prompt: "I feel nervous and restless.", labels: staiScaleReverse},
-    {prompt: "I feel satisfied with myself.",labels: staiScaleForward},
-    {prompt: "I wish I could be as happy as others seem to be.",labels: staiScaleReverse},
-    {prompt: "I feel like a failure.",labels: staiScaleReverse},
-    {prompt: "I feel rested.",labels: staiScaleForward},
-    {prompt: 'I am "calm, cool, and collected".',labels: staiScaleForward},
-    {prompt: "I feel that difficulties are piling up so that I cannot overcome them.",labels: staiScaleForward},
-    {prompt: "I worry too much over something that doesn't really matter.",labels: staiScaleForward},
-    {prompt: "I am happy.",labels: staiScaleForward},
-    {prompt: "I have disturbing thoughts.",labels: staiScaleReverse},
-    {prompt: "I lack self-confidence.",labels: staiScaleReverse},
-    {prompt: "I feel secure.",labels: staiScaleForward},
-    {prompt: "I make decisions easily.",labels: staiScaleForward},
-    {prompt: "I feel inadequate.",labels: staiScaleReverse},
-    {prompt: "I am content.",labels: staiScaleForward},
-    {prompt: "Some unimportant thought runs through my mind and bothers me.",labels: staiScaleReverse},
-    {prompt: "I take disappointments so keenly that I can't put them out of my mind.",labels: staiScaleReverse},
-    {prompt: "I am a steady person.",labels: staiScaleForward},
-    {prompt: "I get in a state of tension or turmoil as I think over my recent concerns and interest.", labels: staiScaleReverse},
+var items = [
+    {prompt: "I feel pleasant.", labels: scaleForward},
+    {prompt: "I feel nervous and restless.", labels: scaleReverse},
+    {prompt: "I feel satisfied with myself.",labels: scaleForward},
+    {prompt: "I wish I could be as happy as others seem to be.",labels: scaleReverse},
+    {prompt: "I feel like a failure.",labels: scaleReverse},
+    {prompt: "I feel rested.",labels: scaleForward},
+    {prompt: 'I am "calm, cool, and collected".',labels: scaleForward},
+    {prompt: "I feel that difficulties are piling up so that I cannot overcome them.",labels: scaleForward},
+    {prompt: "I worry too much over something that doesn't really matter.",labels: scaleForward},
+    {prompt: "I am happy.",labels: scaleForward},
+    {prompt: "I have disturbing thoughts.",labels: scaleReverse},
+    {prompt: "I lack self-confidence.",labels: scaleReverse},
+    {prompt: "I feel secure.",labels: scaleForward},
+    {prompt: "I make decisions easily.",labels: scaleForward},
+    {prompt: "I feel inadequate.",labels: scaleReverse},
+    {prompt: "I am content.",labels: scaleForward},
+    {prompt: "Some unimportant thought runs through my mind and bothers me.",labels: scaleReverse},
+    {prompt: "I take disappointments so keenly that I can't put them out of my mind.",labels: scaleReverse},
+    {prompt: "I am a steady person.",labels: scaleForward},
+    {prompt: "I get in a state of tension or turmoil as I think over my recent concerns and interest.", labels: scaleReverse},
   ]
 
-  var staiInstructions = 'Read each statement and then choose the answer to indicate how you generally feel.'
+  var instructions = 'Read each statement and then choose the answer to indicate how you generally feel.'
