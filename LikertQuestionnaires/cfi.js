@@ -1,7 +1,5 @@
 var title = "Conitive Flexibility Index" 
 
-var reference = "Dennis, John & Vander Wal, Jillon. (2010). The Cognitive Flexibility Inventory: Instrument Development and Estimates of Reliability and Validity. Cogn Ther Res. 34. 241-253. 10.1007/s10608-009-9276-4. "
-
 var scaleForward = [
 	"Strongly disagree",
 	"Disagree",
@@ -13,7 +11,6 @@ var scaleForward = [
 	]
 
 var items = [
-    {prompt: "I feel pleasant.", labels: scaleForward},
     {prompt: "I am good at ‘‘sizing up’’ situations.", labels: scaleForward},
     {prompt: "I have a hard time making decisions when faced with difficult situations.", labels: scaleForward},
     {prompt: "I consider multiple options before making a decision.", labels: scaleForward},
@@ -36,5 +33,7 @@ var items = [
 	{prompt: "I consider multiple options before responding to difficult situations.", labels: scaleForward},
 	]
 
-
 var instructions = "Please indicate the extent to which you agree or disagree with the following statements"
+
+var reference = "Dennis, John & Vander Wal, Jillon. (2010). The Cognitive Flexibility Inventory: Instrument Development and Estimates of Reliability and Validity. Cogn Ther Res. 34. 241-253. 10.1007/s10608-009-9276-4. "
+
