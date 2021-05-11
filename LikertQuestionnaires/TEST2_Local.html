@@ -13,9 +13,10 @@
     <script src="jspsych/plugins/jspsych-fullscreen.js"></script>
     <script src="jspsych/plugins/jspsych-instructions.js"></script>    
     <script src="jspsych/plugins/jspsych-survey-likert.js"></script>
-    
+    <link href="jspsych/css/jspsych.css" rel="stylesheet" type="text/css">
     <link href="LikertQuestionnaires.css" rel="stylesheet">
-    <script src="cfs.js"></script>
+    <script src="cfs.js"></script> """<< JUST CHANGE THIS AND THEN REMOVE THIS TEXT"""
+
   </head>
   <script>
 
@@ -25,6 +26,16 @@
     type: 'survey-likert',
     questions: items,
     preamble: instructions,
+    on_finish: function(data){
+      // The responses to each question on a likert scale are stored in an Object
+      // cycle over the object and find the key and values for each
+      var Sum = 0;
+      for (const [key, value] of Object.entries(jsPsych.data.getLastTrialData().values()[0].response)) 
+        {
+          Sum += value + 1
+        }
+      console.log("Sum = "+Sum)
+    }
   };
 
   

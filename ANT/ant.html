@@ -19,8 +19,8 @@
       .jspsych-html-keyboard-response-stimulus {font-size: 45;}
       .jspsych-display-element {
         font-family: 'Open Sans', 'Arial', sans-serif;
-        font-size: 100px;
-        line-height: 1.6em;
+        font-size: 72px;
+        line-height: 0.85em;
       }
     </style>
   </head>
@@ -46,10 +46,22 @@
       flankersR += ">";
       flankersL += "<";
     }
+  //https://www.webnots.com/keyboard-shortcuts-for-asterisk-symbol/
+    var fixation = [
+      {
+        stimulus: "\u2217<br>+<br>\u2217",
+        data: {stim_type: "top bot"}
+      },
+      {
+        stimulus: " <br>+<br>\u2217",
+        data: {stim_type: "bot"}
+      }
+      ]
 
     var test_stimuli = [
         {
             stimulus: flankersL + "<" + flankersL,
+            //stimulus: "\u2217<br>+<br>\u2217",
             data: { stim_type: 'congruent', direction: 'left'}
           },
           {

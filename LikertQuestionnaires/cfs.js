@@ -26,12 +26,12 @@ var items = [
 	{prompt: "I can find workable solutions to seemingly unsolvable problems.", labels: scaleForward},
 	{prompt: "I seldom have choices when deciding how to behave.", labels: scaleReverse},
 	{prompt: "I am willing to work at creative solutions to problems.", labels: scaleForward},
-	{prompt: "In any given situauon, I am able to act appropriately.", labels: scaleForward},
+	{prompt: "In any given situation, I am able to act appropriately.", labels: scaleForward},
 	{prompt: "My behavior is a result of conscious decisions that I make.", labels: scaleForward},
 	{prompt: "I have many possible ways of behaving in any given situation.", labels: scaleForward},
-	{prompt: "I have dhculty using my knowledge on a given topic in real life situations.", labels: scaleReverse},
+	{prompt: "I have difficulty using my knowledge on a given topic in real life situations.", labels: scaleReverse},
 	{prompt: "I am willing to listen and consider alternatives for handling a problem.", labels: scaleForward},
-	{prompt: "I have the self-confidence necessarv to trv difFerent ways of behavinn. ", labels: scaleForward}
+	{prompt: "I have the self-confidence necessary to try different ways of behaving. ", labels: scaleForward}
 	]
 
 
