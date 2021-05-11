@@ -128,7 +128,7 @@
   background: #eee;
   box-shadow: 0px 0px 0px #000000, 0px 0px 0px #0d0d0d;
   border-radius: 2px;
-  border: 1px solid #aaa;
+  border: 5px solid #aaa;
 }
 .jspsych-slider::-ms-track {
   appearance: none;
@@ -138,14 +138,14 @@
   background: #eee;
   box-shadow: 0px 0px 0px #000000, 0px 0px 0px #0d0d0d;
   border-radius: 2px;
-  border: 1px solid #aaa;
+  border: 5px solid #aaa;
 }
 /* thumb */
 .jspsych-slider::-webkit-slider-thumb {
   border: 1px solid #666;
   height: 24px;
   width: 15px;
-  border-radius: 5px;
+  border-radius: 15px;
   background: #ffffff;
   cursor: pointer;
   -webkit-appearance: none;
@@ -155,15 +155,15 @@
   border: 1px solid #666;
   height: 24px;
   width: 15px;
-  border-radius: 5px;
+  border-radius: 15px;
   background: #ffffff;
   cursor: pointer;
 }
 .jspsych-slider::-ms-thumb {
   border: 1px solid #666;
   height: 20px;
-  width: 15px;
-  border-radius: 5px;
+  width: 45px;
+  border-radius: 15px;
   background: #ffffff;
   cursor: pointer;
   margin-top: -2px;
