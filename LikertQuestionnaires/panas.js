@@ -1,34 +1,37 @@
 var title = "Positive and Negative Affect Schedule (PANAS)"
 
-var scaleForward = [
+var scale = [
     "Very slightly or not at all",
     "A little",
     "Moderately",
     "Quite a bit",
     "Extremely"
   ]
+  
+// All questions use the same direction so enter that single flag as an array of size 1
+var ReverseScoreDirection = [false]
 
 var items = [
-    {prompt: "Interested", labels: scaleForward},
-    {prompt: "Distressed", labels: scaleForward},
-    {prompt: "Excited", labels: scaleForward},
-    {prompt: "Upset", labels: scaleForward},
-    {prompt: "Strong", labels: scaleForward},
-    {prompt: "Guilty", labels: scaleForward},
-    {prompt: "Scared", labels: scaleForward},
-    {prompt: "Hostile", labels: scaleForward},
-    {prompt: "Enthusiastic", labels: scaleForward},
-    {prompt: "Proud", labels: scaleForward},
-    {prompt: "Irritable", labels: scaleForward},
-    {prompt: "Alert", labels: scaleForward},
-    {prompt: "Ashamed", labels: scaleForward},
-    {prompt: "Inspired", labels: scaleForward},
-    {prompt: "Nervous", labels: scaleForward},
-    {prompt: "Determined", labels: scaleForward},
-    {prompt: "Attentive", labels: scaleForward},
-    {prompt: "Jittery", labels: scaleForward},
-    {prompt: "Active", labels: scaleForward},
-    {prompt: "Afraid", labels: scaleForward},
+    {prompt: "Interested", labels: scale},
+    {prompt: "Distressed", labels: scale},
+    {prompt: "Excited", labels: scale},
+    {prompt: "Upset", labels: scale},
+    {prompt: "Strong", labels: scale},
+    {prompt: "Guilty", labels: scale},
+    {prompt: "Scared", labels: scale},
+    {prompt: "Hostile", labels: scale},
+    {prompt: "Enthusiastic", labels: scale},
+    {prompt: "Proud", labels: scale},
+    {prompt: "Irritable", labels: scale},
+    {prompt: "Alert", labels: scale},
+    {prompt: "Ashamed", labels: scale},
+    {prompt: "Inspired", labels: scale},
+    {prompt: "Nervous", labels: scale},
+    {prompt: "Determined", labels: scale},
+    {prompt: "Attentive", labels: scale},
+    {prompt: "Jittery", labels: scale},
+    {prompt: "Active", labels: scale},
+    {prompt: "Afraid", labels: scale},
   ]
 
 var instructions = 'This scale consists of a number of words that describe different feelings and emotions. Indicate to what extent you feel this way right now, that is, at the present moment.'

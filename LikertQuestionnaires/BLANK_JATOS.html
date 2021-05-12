@@ -27,6 +27,31 @@
         type: 'survey-likert',
         questions: items,
         preamble: instructions,
+        on_finish: function(data){
+          // The responses to each question on a likert scale are stored in an Object
+          // cycle over the object and find the key and values for each
+          var Sum = 0;
+          var count = 0;
+          // cycle over each entry in teh object that holds the likert scale and responses
+          for (const [key, value] of Object.entries(jsPsych.data.getLastTrialData().values()[0].response)) 
+            {   
+                // Check to see if the scoring for this items should be reveresed
+                if (ReverseScoreDirection[count])
+                {
+                    Sum += ScaleSize - value
+                }
+                else 
+                {
+                    Sum += value + 1
+                }
+                // If there are no reversals of the scoring then allow the entry of a single flag instead of a full array 
+                if (ReverseScoreDirection.length > 1)
+                {
+                    count += 1      
+                }
+            }
+          console.log("Sum = "+Sum)
+        }
     };
 
       

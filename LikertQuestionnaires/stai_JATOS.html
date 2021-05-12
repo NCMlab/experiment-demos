@@ -15,14 +15,14 @@
     <script src="jspsych/plugins/jspsych-survey-likert.js"></script>
     <link href="jspsych/css/jspsych.css" rel="stylesheet" type="text/css">
     <link href="LikertQuestionnaires.css" rel="stylesheet">
-    <script src="panas.js"></script> 
+    <script src="stai.js"></script>
+    <script src="jatos.js"></script>
 
   </head>
   <script>
 
-    // How many options are there in the scale?
-    var ScaleSize = scale.length
-    
+
+
     var Test = {
         type: 'survey-likert',
         questions: items,
@@ -54,13 +54,20 @@
         }
     };
 
-  
+      
     var timeline = [];
     timeline.push(Test)
 
-    jsPsych.init({
-        experiment_width: 600,
-        timeline: timeline,
-    })
+    jatos.onLoad(function() {
+        jsPsych.init({
+            experiment_width: 600,       
+            timeline: timeline,
+            on_finish: function() {
+                var resultsJson = jsPsych.data.get().json();
+                jatos.submitResultData(resultsJson, jatos.startNextComponent);
+            }
+        });
+    });
+
     </script>
 </html>

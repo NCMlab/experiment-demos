@@ -15,18 +15,46 @@
     <script src="jspsych/plugins/jspsych-survey-likert.js"></script>
     <link href="jspsych/css/jspsych.css" rel="stylesheet" type="text/css">
     <link href="LikertQuestionnaires.css" rel="stylesheet">
-    <script src="cfs.js"></script> """<< JUST CHANGE THIS AND THEN REMOVE THIS TEXT"""
-
+    <script src="panas.js"></script> 
+  <style>
+    input[type="radio"] {height: 35px; width: 35px; vertical-align: middle;}
+  </style>
   </head>
   <script>
 
-
-
-  var Test = {
-    type: 'survey-likert',
-    questions: items,
-    preamble: instructions,
-  };
+    // How many options are there in the scale?
+    var ScaleSize = scale.length
+    
+    var Test = {
+        type: 'survey-likert',
+        questions: items,
+        preamble: instructions,
+        on_finish: function(data){
+          // The responses to each question on a likert scale are stored in an Object
+          // cycle over the object and find the key and values for each
+          var Sum = 0;
+          var count = 0;
+          // cycle over each entry in teh object that holds the likert scale and responses
+          for (const [key, value] of Object.entries(jsPsych.data.getLastTrialData().values()[0].response)) 
+            {   
+                // Check to see if the scoring for this items should be reveresed
+                if (ReverseScoreDirection[count])
+                {
+                    Sum += ScaleSize - value
+                }
+                else 
+                {
+                    Sum += value + 1
+                }
+                // If there are no reversals of the scoring then allow the entry of a single flag instead of a full array 
+                if (ReverseScoreDirection.length > 1)
+                {
+                    count += 1      
+                }
+            }
+          console.log("Sum = "+Sum)
+        }
+    };
 
   
     var timeline = [];
@@ -36,5 +64,5 @@
         experiment_width: 600,
         timeline: timeline,
     })
-      </script>
+    </script>
 </html>
