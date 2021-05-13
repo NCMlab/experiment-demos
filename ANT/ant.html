@@ -12,7 +12,7 @@
     <script src="jspsych/plugins/jspsych-image-keyboard-response.js"></script>
     <script src="jspsych/plugins/jspsych-fullscreen.js"></script>
     <script src="jspsych/plugins/jspsych-instructions.js"></script>    
-    
+    <script src="ANT_Setup_EN.js"></script>
     <link href="jspsych/css/jspsych.css" rel="stylesheet" type="text/css">
     <style>
       .stimulus { font-size: 45; }
@@ -47,48 +47,39 @@
       flankersL += "<";
     }
   //https://www.webnots.com/keyboard-shortcuts-for-asterisk-symbol/
-    var fixation = [
+    var Stim = {
+      type: 'html-keyboard-response',
+      stimulus: function()
       {
-        stimulus: "\u2217<br>+<br>\u2217",
-        data: {stim_type: "top bot"}
+        var centerArrow = jsPsych.timelineVariable("stimulus", true)
+        var flanker = jsPsych.timelineVariable("flanker", true)
+        var stim = flanker + centerArrow + flanker
+        return stim
       },
-      {
-        stimulus: " <br>+<br>\u2217",
-        data: {stim_type: "bot"}
-      }
-      ]
+      choices: ['ArrowLeft', 'ArrowRight'],
+      post_trial_gap: 200
+    } 
 
-    var test_stimuli = [
-        {
-            stimulus: flankersL + "<" + flankersL,
-            //stimulus: "\u2217<br>+<br>\u2217",
-            data: { stim_type: 'congruent', direction: 'left'}
-          },
-          {
-            stimulus: flankersR + ">" + flankersR,
-            data: { stim_type: 'congruent', direction: 'right'}
-          },
-          {
-            stimulus: flankersL + ">" + flankersL,
-            data: { stim_type: 'incongruent', direction: 'right'}
-          },
-          {
-            stimulus: flankersR + "<" + flankersR,
-            data: { stim_type: 'incongruent', direction: 'left'}
-        }
-    ];
-        var test = {
-          timeline: [{
-            type: 'html-keyboard-response',
-            choices: ['ArrowLeft', 'ArrowRight'],
-            trial_duration: 1500,
-            stimulus: jsPsych.timelineVariable('stimulus'),
-            data: jsPsych.timelineVariable('data')
-          }],
-          timeline_variables: test_stimuli,
-          sample: {type: 'fixed-repetitions', size: 3}
-        };
-    timeline.push(test)
+    var Fix = {
+      type: 'html-keyboard-response',
+      stimulus: function()
+      {
+        var stim = jsPsych.timelineVariable("fixation", true)
+        return stim
+      },
+      choices: jsPsych.NO_KEYS,
+      trial_duration: 300
+    } 
+
+    var test_procedure = {
+      timeline: [Stim, Fix],
+      timeline_variables: ANT,
+      sample: {
+        type: 'fixed-repetitions',
+        size: 4, 
+      }
+    };
+    timeline.push(test_procedure)
 
 
     /* start the experiment */

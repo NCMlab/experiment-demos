@@ -17,33 +17,50 @@
     <link href="LikertQuestionnaires.css" rel="stylesheet">
     <script src="panas.js"></script>
     <script src="jatos.js"></script>
-
+    <style>
+        input[type="radio"] {height: 35px; width: 35px; vertical-align: middle;}
+    </style>
   </head>
   <script>
 
-    // How many options are there in the scale?
-    var ScaleSize = scale.length
 
+
+     // How many options are there in the scale?
+    var ScaleSize = scale.length
+    
+    // Prepare the questionnaire
     var Test = {
         type: 'survey-likert',
+        // the items are taken from teh import JS file
         questions: items,
+        // The instructions are also in teh JS file
         preamble: instructions,
         on_finish: function(data){
           // The responses to each question on a likert scale are stored in an Object
           // cycle over the object and find the key and values for each
           var Sum = 0;
+          var MissedQuestions = 0
           var count = 0;
           // cycle over each entry in teh object that holds the likert scale and responses
           for (const [key, value] of Object.entries(jsPsych.data.getLastTrialData().values()[0].response)) 
-            {   
-                // Check to see if the scoring for this items should be reveresed
-                if (ReverseScoreDirection[count])
+            {   // Check to see if any questions were not answers. If so then score them as a zero.
+                if (value === "")
                 {
-                    Sum += ScaleSize - value
+                    Sum += 0
+                    // Keep track of how many questions were missed
+                    MissedQuestions += 1
                 }
-                else 
+                else
                 {
-                    Sum += value + 1
+                    // Check to see if the scoring for this items should be reveresed
+                    if (ReverseScoreDirection[count])
+                    {
+                        Sum += ScaleSize - value
+                    }
+                    else 
+                    {
+                        Sum += value + 1
+                    }
                 }
                 // If there are no reversals of the scoring then allow the entry of a single flag instead of a full array 
                 if (ReverseScoreDirection.length > 1)
@@ -51,9 +68,12 @@
                     count += 1      
                 }
             }
-          console.log("Sum = "+Sum)
+          data.Sum = Sum
+          data.NumberMissedQuestions = MissedQuestions
         }
     };
+
+
 
       
     var timeline = [];
