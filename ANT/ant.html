@@ -55,27 +55,51 @@
     var Stim = {
       type: 'html-keyboard-response',
       stimulus: function()
-      {
-        var centralArrow = jsPsych.timelineVariable("stimulus", true)
+      { // The stimulus is mae based on the conditions laid out in the ANT 
+        // variable read from teh setup file.
+        // Recall that the ANT variable is an array of objects. 
+        // The object contains everything there is know about this trial.
+        // Read how this trial will be made
+        var centralArrow = jsPsych.timelineVariable("centralArrow", true)
         var flanker = jsPsych.timelineVariable("flanker", true)
         var position = jsPsych.timelineVariable("position", true)
+        
+        // make the stimulus for this trial
         var stim = flanker + centralArrow + flanker
+        // set the stimulus up in its position on the screen
         if (position == 'high')
-        {
-          stim = PutIntoTable(stim, '+',' ')
-          
-        }
-        else
-          {
-            stim = PutIntoTable(' ','+',stim)
-          }
- 
+        {stim = PutIntoTable(stim, '+',' ')}
+        else {stim = PutIntoTable(' ','+',stim)}
         return stim
       },
-      choices: ['ArrowLeft', 'ArrowRight']
+      choices: KeyboardChoices,
+      on_finish: function(data, correct){
+        // find the correct response fpor this trial
+        var correct = jsPsych.timelineVariable("correct", true)
+        // in the list of allowable key presses, what is the index of wehat was pressed?
+        var ResponseIndex = KeyboardChoices.indexOf(data.response)
+        //console.log(ResponseMapping[ResponseIndex])
+        
+        if (ResponseMapping[ResponseIndex] == correct)
+          {console.log("Good Job");
+          data.correct = 1
+          }
+          else {data.correct = 0}
+
+  //        data.correct = data.key_press == jsPsych.pluginAPI.convertKeyCharacterToKeyCode(data.letter);
+        // This used later on to filter trials
+        /* If the ESCAPE key is pressed the current timeline is ended and the thank you screen is shown */
+        if (data.key_press == 27) {
+          //jsPsych.endCurrentTimeline();
+          jsPsych.end();
+        }
+      },
+
     } 
 
     var Fix = {
+      // Each trial also has its own specific cue which occurs BEFORE the stimulus presentation
+      // The cue itself is actually made in the setup file and not here. This could be changed if desired
       type: 'html-keyboard-response',
       stimulus: function()
       {
@@ -87,7 +111,9 @@
     } 
 
     var test_procedure = {
-      timeline: [Stim, Fix],
+      // Make sure this order is correct: fixation cue and then the stimulus
+      // Otherwise the scoring will not make any sense
+      timeline: [Fix, Stim],
       timeline_variables: ANT,
       sample: {
         type: 'fixed-repetitions',
@@ -95,13 +121,14 @@
       }
     };
     timeline.push(test_procedure)
-
-
     /* start the experiment */
     //jatos.onLoad(function() {
     jsPsych.init({
         experiment_width: 600,
-        timeline: timeline
+        timeline: timeline,
+        on_finish: function() {
+          jsPsych.data.get().localSave('csv','ANTMydata.csv');
+        }
       })
   </script>
 </html>
