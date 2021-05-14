@@ -22,6 +22,11 @@
         font-size: 72px;
         line-height: 0.85em;
       }
+      .center {
+        margin-left: auto;
+        margin-right: auto;
+            }
+
     </style>
   </head>
   <script>
@@ -51,13 +56,23 @@
       type: 'html-keyboard-response',
       stimulus: function()
       {
-        var centerArrow = jsPsych.timelineVariable("stimulus", true)
+        var centralArrow = jsPsych.timelineVariable("stimulus", true)
         var flanker = jsPsych.timelineVariable("flanker", true)
-        var stim = flanker + centerArrow + flanker
+        var position = jsPsych.timelineVariable("position", true)
+        var stim = flanker + centralArrow + flanker
+        if (position == 'high')
+        {
+          stim = PutIntoTable(stim, '+',' ')
+          
+        }
+        else
+          {
+            stim = PutIntoTable(' ','+',stim)
+          }
+ 
         return stim
       },
-      choices: ['ArrowLeft', 'ArrowRight'],
-      post_trial_gap: 200
+      choices: ['ArrowLeft', 'ArrowRight']
     } 
 
     var Fix = {
@@ -76,7 +91,7 @@
       timeline_variables: ANT,
       sample: {
         type: 'fixed-repetitions',
-        size: 4, 
+        size: 1, 
       }
     };
     timeline.push(test_procedure)
