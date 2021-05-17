@@ -53,19 +53,19 @@ for(var i=0; i<3; i++) { // cycle over flanker type
 				// map the stim to the type
 				// using the indices is a convenience. It would be better if this was more explicit
 				// This information will be used for scoring this experiment
-				if (i==0 & j ==1) {ANT[count].flankerType = 'con';}
-				if (i==1 & j ==0) {ANT[count].flankerType = 'con';}
-				if (i==2) {ANT[count].flankerType = 'neu';}
-				if (i==0 & j ==0) {ANT[count].flankerType = 'inc';}
-				if (i==1 & j ==1) {ANT[count].flankerType = 'inc';}
+				if (i==0 & j ==1) {ANT[count].flankerType = 'conFlanker';}
+				if (i==1 & j ==0) {ANT[count].flankerType = 'conFlanker';}
+				if (i==2) {ANT[count].flankerType = 'neuFlanker';}
+				if (i==0 & j ==0) {ANT[count].flankerType = 'incFlanker';}
+				if (i==1 & j ==1) {ANT[count].flankerType = 'incFlanker';}
 				if (k==0) {ANT[count].cuePos = 'both';}
 				if (k==1) {ANT[count].cuePos = 'upper';}
 				if (k==2) {ANT[count].cuePos = 'lower';}
 				if (k==3) {ANT[count].cuePos = 'none';}
 				if (k==4) {ANT[count].cuePos = 'center';}
-				if (k==1 & m==0) {ANT[count].cueType = 'con';}
-				else if (k==2 & m==1) {ANT[count].cueType = 'con';}
-				else {ANT[count].cueType = 'inc';}
+				if (k==1 & m==0) {ANT[count].cueType = 'conCue';}
+				else if (k==2 & m==1) {ANT[count].cueType = 'conCue';}
+				else {ANT[count].cueType = 'incCue';}
 
 				count += 1;
 			}

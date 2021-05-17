@@ -9,7 +9,7 @@ var scale = [
 	"Strongly Disagree"
 	]
 
-var ReverseScoreDirection = [false, true,m truem false, true, false, false, false, false, true, false, false]
+var ReverseScoreDirection = [false, true, true, false, true, false, false, false, false, true, false, false]
 
 var items = [
 	{prompt: "I can communicate an idea in many different ways.", labels: scale},

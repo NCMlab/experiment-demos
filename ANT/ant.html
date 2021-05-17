@@ -2,11 +2,11 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <meta name="description" content="jsPsych Stroop: Word Task">
+    <meta name="description" content="jsPsych ANT">
     <meta name="keywords" content="HTML, CSS, JavaScript">
     <meta name="author" content="Jason Steffener, NCMLab">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stroop: Word</title>
+    <title>ANT</title>
     <script src="jspsych/jspsych.js"></script>
     <script src="jspsych/plugins/jspsych-html-keyboard-response.js"></script>
     <script src="jspsych/plugins/jspsych-image-keyboard-response.js"></script>
@@ -80,19 +80,16 @@
         var ResponseIndex = KeyboardChoices.indexOf(data.response)
         //console.log(ResponseMapping[ResponseIndex])
         
-        if (ResponseMapping[ResponseIndex] == correct)
-          {console.log("Good Job");
-          data.correct = 1
-          }
+        if (ResponseMapping[ResponseIndex] == correct) 
+          {data.correct = 1}
           else {data.correct = 0}
-
-  //        data.correct = data.key_press == jsPsych.pluginAPI.convertKeyCharacterToKeyCode(data.letter);
-        // This used later on to filter trials
         /* If the ESCAPE key is pressed the current timeline is ended and the thank you screen is shown */
-        if (data.key_press == 27) {
-          //jsPsych.endCurrentTimeline();
-          jsPsych.end();
-        }
+        if (data.key_press == 27) {jsPsych.end();}
+
+        data.flankerType = jsPsych.timelineVariable("flankerType", true);
+        data.cuePos = jsPsych.timelineVariable("cuePos", true);
+        data.cueType = jsPsych.timelineVariable("cueType", true);
+        data.trialType = 'trial';
       },
 
     } 
@@ -107,7 +104,11 @@
         return stim
       },
       choices: jsPsych.NO_KEYS,
-      trial_duration: 300
+      trial_duration: 300,
+      on_finish: function(data){
+        data.trialType = "fixation"
+      }
+      
     } 
 
     var test_procedure = {
