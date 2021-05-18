@@ -33,8 +33,30 @@
     </style>
   </head>
   <script>
-/* create timeline */
+  /* create timeline */
     var timeline = [];
+
+    // Make experiment run in full screen mode
+    // Note, that the fullscreen plugin needs to imported above
+    timeline.push({
+      type: 'fullscreen',
+      fullscreen_mode: FullScreenMode
+    });
+  
+    var Instructions = {
+       type: 'instructions',
+       pages: instructions,
+       show_clickable_nav: true
+    }
+
+    var ThankYou = {
+        type: "html-keyboard-response",
+        stimulus: "Thank you"
+    };
+
+    // Keep track of how many trials have been presented.
+    // After a certain count present a long duration ITI
+    var count = 0;
 
     var Stimulus = {
       type: 'html-keyboard-response',
@@ -46,8 +68,8 @@
       trial_duration: 100,
       choices: jsPsych.NO_KEYS,
       on_finish: function(data){
-        data.Stimulus:StimulusLetters,
-        data.trialType = "Stimulus"
+        data.trialType = "Stimulus",
+        count += 1
         }
       }
 
@@ -72,13 +94,41 @@
       },
       choices: KeyboardChoices,
       on_finish: function(data){
+        data.Stimulus = jsPsych.timelineVariable("StimulusLetters"),
         data.trialType = "Probe"
         }
     }
 
+    var InterBlockFix = {
+      on_start: function(){
+        console.log('Got here')
+      },
+      type: 'html-keyboard-response',
+      stimulus: '<p style="color:blue">+</p>',
+      choices: jsPsych.NO_KEYS,
+      trial_duration: 1000,
+      on_finish: function(data){
+        data.trialType = "fixation"
+      }
+    } 
+
+    var if_node = {
+      timeline: [InterBlockFix],
+      conditional_function: function(){
+        console.log(count)
+        if (count == NTrialsPerBlock) {
+          count = 0
+          console.log('Return TRUE')
+          return true;
+        } else {
+          return false;
+        }
+      }
+    }
+
+
+    
     var Fix = {
-      // Each trial also has its own specific cue which occurs BEFORE the stimulus presentation
-      // The cue itself is actually made in the setup file and not here. This could be changed if desired
       type: 'html-keyboard-response',
       stimulus: '<p style="color:blue">+</p>',
       choices: jsPsych.NO_KEYS,
@@ -91,12 +141,13 @@
     var test_procedure = {
       // Make sure this order is correct: fixation cue and then the stimulus
       // Otherwise the scoring will not make any sense
-      timeline: [Fix, Stimulus, Retention, Probe],
+      timeline: [Stimulus, Retention, Probe, if_node, Fix],
       timeline_variables: DMSLetterBehaviorList001,
       randomize_order: false  
     };
-
+    timeline.push(Instructions)
     timeline.push(test_procedure)
+    timeline.push(ThankYou)
     /* start the experiment */
     //jatos.onLoad(function() {
     jsPsych.init({

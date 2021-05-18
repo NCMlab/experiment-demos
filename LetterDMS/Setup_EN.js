@@ -2,6 +2,10 @@ var LetterList = "BCDFGHJKMNPQRTY";
 
 var CurrentLetterList = '';
 
+var NTrialsPerBlock = 6;
+
+var FullScreenMode = false;
+
 var KeyboardChoices = ['arrowleft', 'arrowright'];
 
 function PutLettersInGrid(LetterList,NRows,NCols, width=600, height=300, FontSize=40)
@@ -20,6 +24,12 @@ function PutLettersInGrid(LetterList,NRows,NCols, width=600, height=300, FontSiz
 		return Table
 	}
 
+var instructions = ['<p>Press [LEFT] if the letter WAS in the set.<br>Press [RIGHT] if the letter WAS NOT in the set.<br>',
+	'<p>You will NOT receive feedback after each trial.</p>',
+	'Remember that the letters to study will be in white and CAPITALIZED.',
+	'The test letter will be in blue and will be lowercase.',
+	'Try to respond as quickly and as accurately as possible.',
+	'Press the [5] key to begin.']
 
 //TL,TM,TR,CL,CM,CR,BL,BM,BR,probe,corr,Load
 var DMSLetterBehaviorList001 = [
