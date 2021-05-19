@@ -1,4 +1,4 @@
-var LetterList = "BCDFGHJKMNPQRTY";
+var AllowableLetters = "BCDFGHJKLMNPQRSTVXYZ";
 
 var CurrentLetterList = '';
 
@@ -7,21 +7,83 @@ var NTrialsPerBlock = 6;
 var FullScreenMode = false;
 
 var KeyboardChoices = ['arrowleft', 'arrowright'];
+// the following is used for scoring and allows the keyboard choices to be whatever you would like
+var ResponseMapping = [true, false];
 
 function PutLettersInGrid(LetterList,NRows,NCols, width=600, height=300, FontSize=40)
 	{
 		var count = 0;
 		var Table = '';
+		// create the html table and assign the class which is defined in the HTML file
 		Table += '<table class="a">'
 		for (var i=0; i<NRows; i++) { // Cycle over rows
 			Table += '<tr height="'+height+'">'
 			for (var j=0; j<NCols; j++) { // cycle over columns
 				Table += '<td style="font-size:'+FontSize+'px; line-width:100px">'+LetterList[count]+'</td>';
 				count += 1;
-
 			}
 		}
 		return Table
+	}
+
+function RemoveOldLetters(AllowableLetters, LastTrialStimulus, LastTrialProbe)
+	{	// remove the letters from the last trial from teh list of allowable letters
+		for (var i=0; i < LastTrialStimulus.length; i++) {
+			AllowableLetters = AllowableLetters.replace(LastTrialStimulus[i],'');
+		}
+		// remove the probe letter also, after converting it to uppercase
+		AllowableLetters = AllowableLetters.replace(LastTrialProbe.toUpperCase(),'');
+		return AllowableLetters
+	}
+
+function MakeStimulus(LettersToUse, Load)
+	{
+		// Make a letter list for use as stimuli
+		// Shuffle the letters
+		var ShuffledLetters = shuffle(LettersToUse)
+		// Onky take the required number of letters based on the load
+		var LetterString = ShuffledLetters.substring(0,Load)
+
+		return PadLetters(LetterString)
+	}	
+
+function getRandomInt(n) 
+	{ //https://www.codespeedy.com/shuffle-characters-of-a-string-in-javascript/
+  		return Math.floor(Math.random() * n);
+	}
+
+function shuffle(s) {
+	  var arr = s.split('');           // Convert String to array
+	  var n = arr.length;              // Length of the array
+	  
+	  for(var i=0 ; i<n-1 ; ++i) {
+	    var j = getRandomInt(n);       // Get random of [0, n-1]
+	   
+	    var temp = arr[i];             // Swap arr[i] and arr[j]
+	    arr[i] = arr[j];
+	    arr[j] = temp;
+	  }
+	  s = arr.join('');                // Convert Array to string
+	  return s;                        // Return shuffled string
+	}
+
+function MakeAdaptiveStimulus(Load, LastTrialStimulus, LastTrialProbe)
+	// Make stimuli on-the-fly and make sure that no current letters were included in the previous trial
+	{
+
+	}
+function PadLetters(Letters)
+	{
+		console.log(Letters.length)
+		switch (Letters.length) {
+			case 1:
+				Stimulus = '****'+Letters+'****';
+				break;
+			case 2:
+				console.log('This case')
+				Stimulus = '***'+Letters[0]+'*'+Letters[1]+'***';
+		}
+		return Stimulus
 	}
 
 var instructions = ['<p>Press [LEFT] if the letter WAS in the set.<br>Press [RIGHT] if the letter WAS NOT in the set.<br>',
