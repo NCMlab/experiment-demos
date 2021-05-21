@@ -174,13 +174,13 @@
       // Make sure this order is correct: fixation cue and then the stimulus
       // Otherwise the scoring will not make any sense
       timeline: [Stimulus, Retention, Probe, Fix],
-      timeline_variables: DMSLetterBehaviorList001,
       randomize_order: false  
     };
     
     var loop_node = {
       timeline: [test_procedure],
       loop_function: function(data){
+        console.log(stair1.Finished)
       return (! stair1.Finished)
      }
     }
