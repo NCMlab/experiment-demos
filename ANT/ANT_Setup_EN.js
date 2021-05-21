@@ -9,7 +9,7 @@ var flankersN = '';
 for (i = 0; i < NFlankers; i++) {
       flankersR += "\u2192";
       flankersL += "\u2190";
-      flankersN += "\u2014";
+      flankersNo+= "\u2014";
     }
 
 var FontSize = 45
@@ -32,6 +32,7 @@ function PutIntoTable(top='top', middle='mid', bottom='bot', width=600, height=3
 var KeyboardChoices = ['arrowleft', 'arrowright'];
 // the following is used for scoring and allows the keyboard choices to be whatever you would like
 var ResponseMapping = ['left', 'right'];
+
 var flankers = [flankersL, flankersR, flankersN];
 var centralArrow = ["\u2192", "\u2190"]; // right, left
 var fixation = [PutIntoTable("\u2217","+","\u2217"), PutIntoTable("\u2217","+"," "), PutIntoTable(" ","+","\u2217"), PutIntoTable(" ","+"," "), PutIntoTable(" ","\u2217"," ")];

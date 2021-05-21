@@ -28,11 +28,18 @@ function PutLettersInGrid(LetterList,NRows,NCols, width=600, height=300, FontSiz
 
 function RemoveOldLetters(AllowableLetters, LastTrialStimulus, LastTrialProbe)
 	{	// remove the letters from the last trial from teh list of allowable letters
-		for (var i=0; i < LastTrialStimulus.length; i++) {
-			AllowableLetters = AllowableLetters.replace(LastTrialStimulus[i],'');
+		// For the first trial there are no previous stimuli, so check for that
+		if (typeof LastTrialStimulus !== 'undefined')
+		{
+			for (var i=0; i < LastTrialStimulus.length; i++) {
+				AllowableLetters = AllowableLetters.replace(LastTrialStimulus[i],'');
+			}
+			// remove the probe letter also, after converting it to uppercase
+			AllowableLetters = AllowableLetters.replace(LastTrialProbe.toUpperCase(),'')
 		}
-		// remove the probe letter also, after converting it to uppercase
-		AllowableLetters = AllowableLetters.replace(LastTrialProbe.toUpperCase(),'');
+		else {
+			AllowabelLetters = AllowableLetters
+		}
 		return AllowableLetters
 	}
 
@@ -41,12 +48,44 @@ function MakeStimulus(LettersToUse, Load)
 		// Make a letter list for use as stimuli
 		// Shuffle the letters
 		var ShuffledLetters = shuffle(LettersToUse)
+		console.log(LettersToUse)
 		// Onky take the required number of letters based on the load
 		var LetterString = ShuffledLetters.substring(0,Load)
-
-		return PadLetters(LetterString)
+		console.log(LetterString)
+		return LetterString
 	}	
 
+function CreateProbeLetter(CurrentStim, AllowableLetters)
+	{
+		ProbeType = MakeProbeType()
+		if (ProbeType == 1)
+		{
+			//LookingForProbe = true
+			//while (LookingForProbe)
+			//{
+				// select a random letter from the current stim
+				// ADD CHCK TO MAKE SURE ELL IS NOT THE PROBE
+				ShuffledStim = shuffle(CurrentStim)
+				CurrentProbe = ShuffledStim[0].toLowerCase()
+				correct = true
+			//	if (CurrentProbe != "L")
+			//	{LookingForProbe = false}
+			//}
+		}
+		else 
+		{ // Remove the current stim letters from the available letter set
+        	CurrentAllowableList = RemoveOldLetters(AllowableLetters, CurrentStim, '')
+			ShuffledStim = shuffle(CurrentAllowableList)
+			CurrentProbe = ShuffledStim[0].toLowerCase()
+			correct = false
+		}
+		return [CurrentProbe, correct]
+	}
+function MakeProbeType()
+	{
+		// Decide if this is a posiitve (1) or negative (0) trial
+		return Math.round(Math.random())
+	}
 function getRandomInt(n) 
 	{ //https://www.codespeedy.com/shuffle-characters-of-a-string-in-javascript/
   		return Math.floor(Math.random() * n);
@@ -70,18 +109,48 @@ function shuffle(s) {
 function MakeAdaptiveStimulus(Load, LastTrialStimulus, LastTrialProbe)
 	// Make stimuli on-the-fly and make sure that no current letters were included in the previous trial
 	{
-
+		// Remove letters from the last trial
+		console.log(AllowableLetters)
+		LettersToUse = RemoveOldLetters(AllowableLetters, LastTrialStimulus, LastTrialProbe)
+		// Shuffle the remaining letters
+		// Select an appropriate length of letters according to the load
+		LetterString = MakeStimulus(LettersToUse, Load)
+		// Decide if the probe is positive or negative
+		CurrentProbe  = CreateProbeLetter(LetterString, LettersToUse)
+		// Pad Letter String
+		Stimulus = PadLetters(LetterString)
+		return [Stimulus, CurrentProbe, LetterString]
 	}
+
 function PadLetters(Letters)
 	{
-		console.log(Letters.length)
 		switch (Letters.length) {
 			case 1:
 				Stimulus = '****'+Letters+'****';
 				break;
 			case 2:
-				console.log('This case')
 				Stimulus = '***'+Letters[0]+'*'+Letters[1]+'***';
+				break;
+			case 3:
+				Stimulus = '***'+Letters.slice(0,3)+'***';
+				break;
+			case 4:
+				Stimulus = Letters[0]+'*'+Letters[1]+'***'+Letters[2]+'*'+Letters[3];
+				break;
+			case 5:
+				Stimulus = Letters[0]+'*'+Letters[1]+'*'+Letters[2]+'*'+Letters[3]+'*'+Letters[4];
+				break;
+			case 6:
+				Stimulus = Letters.slice(0,3)+'***'+Letters.slice(3,6)
+				break;
+			case 7:
+				Stimulus = Letters.slice(0,3)+'*'+Letters[3]+'*'+Letters.slice(4,7);
+				break;
+			case 8:
+				Stimulus = Letters.slice(0,4)+'*'+Letters.slice(4,8)
+				break;
+			case 9:
+				Stimulus = Letters.slice(0,9)
 		}
 		return Stimulus
 	}
