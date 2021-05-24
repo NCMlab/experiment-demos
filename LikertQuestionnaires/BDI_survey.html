@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="jsPsych/jspsych.js"></script>
+    <script src="jsPsych/plugins/jspsych-survey-multi-choice.js"></script>
+    <link rel="stylesheet" href="jsPsych/css/jspsych.css">
+  </head>
+  <body></body>
+  <script>
+
+  // definiting two different response scales that can be used.
+  var page_1_options = ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"];
+  var page_2_options = ["Strongly Disagree", "Disagree", "Somewhat Disagree", "Neural", "Somewhat Agree", "Agree", "Strongly Agree"];
+
+items = [
+  {
+    prompt: "Sadness", 
+    name: 'Sadness', 
+    options: ["I do not feel sad.", "I feel sad.", "I am sad all the time and I can't snap out of it.", "I am so sad and unhappy that I can't stand it."], 
+    required:true
+  },
+  {
+    prompt: "Pessimism",
+    name: "Pessimism",
+    options: ["I am not particularly discouraged about the future.",
+          "I feel discouraged about the future.",
+          "I feel I have nothing to look forward to.",
+          "I feel the future is hopeless and that things cannot improve."],
+    required: true
+  }
+  ]
+
+  var multi_choice_block = {
+    type: 'survey-multi-choice',
+    questions: items
+  };
+
+  
+
+  jsPsych.init({
+    timeline: [multi_choice_block],
+    on_finish: function() {
+      jsPsych.data.displayData();
+    }
+  });
+
+
+  </script>
+</html>
