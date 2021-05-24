@@ -1,14 +1,41 @@
+// General parameters used by all versions of the DFMS task
 var AllowableLetters = "BCDFGHJKLMNPQRSTVXYZ";
-
-var CurrentLetterList = '';
-
-var NTrialsPerBlock = 6;
 
 var FullScreenMode = false;
 
+
 var KeyboardChoices = ['arrowleft', 'arrowright'];
+
+var FontSize = 72;
+
 // the following is used for scoring and allows the keyboard choices to be whatever you would like
 var ResponseMapping = [true, false];
+
+var StimOnTime = 2500
+var RetOnTime = 3500
+var ProbeOnTime = 5000
+// This is the intertrial interval. This experimental component is part of the trial.
+var ITITime = 1000
+// This is the time between blocks. Note that between each block of trials there
+// is also the 3-2-1 countdown. Therefore, the full interblock interval is this value PLUS 
+// the countdown time, which is 3 seconds.
+var InterBlockTime = 3000
+// This is a delay component for use after instructions and before the first Block and at the
+// the end before the thank you screen
+ShortDelayTime = 30
+NumberOfBlocks = 5
+TrialsPerBlock = 6
+
+
+// Block based parameters
+var NTrialsPerBlock = 6;
+
+
+// Adaptive difficulty parameters
+var MaxTrials = 50
+var MaxReversals = 10
+
+var CurrentLetterList = '';
 
 function PutLettersInGrid(LetterList,NRows,NCols, width=600, height=300, FontSize=40)
 	{
@@ -25,6 +52,38 @@ function PutLettersInGrid(LetterList,NRows,NCols, width=600, height=300, FontSiz
 		}
 		return Table
 	}
+
+function CountdownTimer(MillisecondsPerNumber = 1000)
+	{
+    var Three = {
+      type: 'html-keyboard-response',
+      stimulus: '<p>3</p>',
+      choices: jsPsych.NO_KEYS,
+      trial_duration: MillisecondsPerNumber,
+      }
+    var Two = {
+      type: 'html-keyboard-response',
+      stimulus: '<p>2</p>',
+      choices: jsPsych.NO_KEYS,
+      trial_duration: MillisecondsPerNumber,
+      }
+    var One = {
+      type: 'html-keyboard-response',
+      stimulus: '<p>1</p>',
+      choices: jsPsych.NO_KEYS,
+      trial_duration: MillisecondsPerNumber,
+      }
+
+    var Countdown_procedure = {
+      // Make sure this order is correct: fixation cue and then the stimulus
+      // Otherwise the scoring will not make any sense
+      timeline: [Three, Two, One],
+      randomize_order: false  
+    }
+    return Countdown_procedure
+    } 
+	
+
 
 function RemoveOldLetters(AllowableLetters, LastTrialStimulus, LastTrialProbe)
 	{	// remove the letters from the last trial from teh list of allowable letters
@@ -47,17 +106,26 @@ function MakeStimulus(LettersToUse, Load)
 	{
 		// Make a letter list for use as stimuli
 		// Shuffle the letters
-		var ShuffledLetters = shuffle(LettersToUse)
-		console.log(LettersToUse)
-		// Onky take the required number of letters based on the load
-		var LetterString = ShuffledLetters.substring(0,Load)
-		console.log(LetterString)
+		// Make sure a load 1 letter is not L
+		var IsEll = true
+		while (IsEll) {
+			var ShuffledLetters = shuffle(LettersToUse)
+			//console.log(LettersToUse)
+			// Onky take the required number of letters based on the load
+			var LetterString = ShuffledLetters.substring(0,Load)
+			console.log(LetterString)
+			if (Load == 1 & LetterString == "L") {
+				IsEll = true
+			}
+			else {IsEll = false}
+		}
 		return LetterString
 	}	
 
 function CreateProbeLetter(CurrentStim, AllowableLetters)
 	{
 		ProbeType = MakeProbeType()
+
 		if (ProbeType == 1)
 		{
 			//LookingForProbe = true
@@ -65,9 +133,16 @@ function CreateProbeLetter(CurrentStim, AllowableLetters)
 			//{
 				// select a random letter from the current stim
 				// ADD CHCK TO MAKE SURE ELL IS NOT THE PROBE
-				ShuffledStim = shuffle(CurrentStim)
-				CurrentProbe = ShuffledStim[0].toLowerCase()
-				correct = true
+				var IsEll = true
+				while (IsEll) {
+					ShuffledStim = shuffle(CurrentStim)
+					CurrentProbe = ShuffledStim[0].toLowerCase()
+					console.log('Trying: '+CurrentProbe)
+					if (CurrentProbe != 'l') {
+						IsEll = false
+					}
+				}
+				var correct = true
 			//	if (CurrentProbe != "L")
 			//	{LookingForProbe = false}
 			//}
@@ -75,9 +150,16 @@ function CreateProbeLetter(CurrentStim, AllowableLetters)
 		else 
 		{ // Remove the current stim letters from the available letter set
         	CurrentAllowableList = RemoveOldLetters(AllowableLetters, CurrentStim, '')
-			ShuffledStim = shuffle(CurrentAllowableList)
-			CurrentProbe = ShuffledStim[0].toLowerCase()
-			correct = false
+			var IsEll = true
+			while (IsEll) {
+				ShuffledStim = shuffle(CurrentAllowableList)
+				CurrentProbe = ShuffledStim[0].toLowerCase()
+				// Check to make sure the probe letter is NOT ell
+				if (CurrentProbe != 'l') {
+					IsEll = false
+				}			
+			}
+			var correct = false
 		}
 		return [CurrentProbe, correct]
 	}
@@ -110,7 +192,7 @@ function MakeAdaptiveStimulus(Load, LastTrialStimulus, LastTrialProbe)
 	// Make stimuli on-the-fly and make sure that no current letters were included in the previous trial
 	{
 		// Remove letters from the last trial
-		console.log(AllowableLetters)
+		//console.log(AllowableLetters)
 		LettersToUse = RemoveOldLetters(AllowableLetters, LastTrialStimulus, LastTrialProbe)
 		// Shuffle the remaining letters
 		// Select an appropriate length of letters according to the load
@@ -160,7 +242,7 @@ var instructions = ['<p>Press [LEFT] if the letter WAS in the set.<br>Press [RIG
 	'Remember that the letters to study will be in white and CAPITALIZED.',
 	'The test letter will be in blue and will be lowercase.',
 	'Try to respond as quickly and as accurately as possible.',
-	'Press the [5] key to begin.']
+	'Press the any key to begin.']
 
 //TL,TM,TR,CL,CM,CR,BL,BM,BR,probe,corr,Load
 var DMSLetterBehaviorList001 = [

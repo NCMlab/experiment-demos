@@ -109,8 +109,6 @@
   		}
   		// Check to see if any stopping conditions are met
   		checkFinished() {
-        console.log(this.TrialCount)
-        console.log(this.MaxTrials)
   			if (this.ReversalCount == this.MaxReversals) {
   				this.Finished = true
   			}
