@@ -25,12 +25,12 @@ var scale03 = [
 
 var scale04 = [
     "Never",
-    "",
     "Yes, but not in the past 6 months",
-    "",
     "Yes, during the past 6 months"]
 
 var ReverseScoreDirection = [false]
+// The last question has three positions which are scored as 0,2,4
+var QuestionScoreWeights = [1,1,1,1,1,1,1,2]
 
 var items = [
     {prompt: "How often do you use cannabis? ", labels: scale01},

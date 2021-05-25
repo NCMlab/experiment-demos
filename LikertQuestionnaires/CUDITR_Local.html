@@ -21,8 +21,10 @@
   </style>
   </head>
   <script>
-
+// NEED TO ADD A YES/NO QUESTION AT THE BEGINNING ABOUT WHETHER OR NOT THE PERSON USES CANNABIS
+// IF NO THEN SKIP THIS QUESTIONNAIRE
     // How many options are there in the scale?
+    // This scale size becomes a problem if there are scales of different lengths and some are reveresed.
     var ScaleSize = scale01.length
     
     // Prepare the questionnaire
@@ -52,11 +54,11 @@
                     // Check to see if the scoring for this items should be reveresed
                     if (ReverseScoreDirection[count])
                     {
-                        Sum += ScaleSize - value
+                        Sum += ScaleSize - value*QuestionScoreWeights[count]
                     }
                     else 
                     {
-                        Sum += value + 1
+                        Sum += value*QuestionScoreWeights[count] + 1
                     }
                 }
                 // If there are no reversals of the scoring then allow the entry of a single flag instead of a full array 
