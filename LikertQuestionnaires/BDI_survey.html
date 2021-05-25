@@ -10,39 +10,26 @@
   <body></body>
   <script>
 
-  // definiting two different response scales that can be used.
-
-
   var multi_choice_block = {
     type: 'survey-multi-choice',
     questions: items,
     on_finish: function(data){
       var Sum = 0;
-          var MissedQuestions = 0
-          var count = 0;
-          console.log(Object.entries(jsPsych.data.getLastTrialData().values()[0].response))
-          // cycle over each entry in teh object that holds the likert scale and responses
-          for (const [key, value] of Object.entries(jsPsych.data.getLastTrialData().values()[0].response)) 
-            console.log(key)
-          console.log(value)
-            {   // Check to see if any questions were not answers. If so then score them as a zero.
-                if (value === "")
-                {
-                    Sum += 0
-                    // Keep track of how many questions were missed
-                    MissedQuestions += 1
-                }
-                else
-                {
-                    Sum += value + 1
-                }
-            }
-          data.Sum = Sum
-          data.NumberMissedQuestions = MissedQuestions
+      var count = 0;
+      // score the test        
+      // extract the responses as an array 
+      var temp = Object.entries(jsPsych.data.getLastTrialData().values()[0].response)
+      // cycle over the items in the questionnaire
+      for (var i = 0; i < items.length; i++) {
+        // What was the response for this question?
+        var ResponseText = temp[i][1]
+        // find the index of this response in the original items
+        Sum += items[i].options.indexOf(temp[i][1])
+      }
+            // search the items for these values
+      data.Sum = Sum
     }
   }
-
-  
 
   jsPsych.init({
     timeline: [multi_choice_block],
